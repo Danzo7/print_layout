@@ -14,7 +14,7 @@ class HorizontalTable extends StatelessWidget {
     required this.data,
     this.hasHeader,
     this.flex,
-    this.minFontSize = 7,
+    this.minFontSize = 8,
     this.maxFontSize = 9,
     this.fontSize,
   }) : super(key: key);

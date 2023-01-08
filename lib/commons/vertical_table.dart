@@ -16,7 +16,7 @@ class VerticalTable extends StatelessWidget {
       this.hasColon,
       this.hasBorderSecond,
       this.fontSize,
-      this.minFontSize = 7,
+      this.minFontSize = 8,
       this.maxFontSize = 9})
       : super(key: key);
 
