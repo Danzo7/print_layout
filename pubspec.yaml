@@ -1,0 +1,31 @@
+name: sajaya_print_layout
+environment:
+  sdk: ">=2.15.0 <3.0.0"
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  screenshot: ^1.3.0
+  sunmi_printer_plus: ^2.1.1
+  auto_size_text: ^3.0.0
+dev_dependencies:
+  flutter_lints: ^1.0.4
+  flutter_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  uses-material-design: true
+  fonts:
+     - family: cairo
+       fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo-semiBold.ttf
+        - asset: assets/fonts/Cairo-bold.ttf
+     - family:  SodaIcons
+       fonts:
+        - asset: assets/fonts/SodaIcons.ttf
