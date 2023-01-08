@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sajaya_print_layout/misc/extensions.dart';
 import 'package:sajaya_print_layout/misc/image.dart';
-import 'package:sajaya_print_layout/misc/image_from_widget.dart';
 import 'package:sajaya_print_layout/misc/types.dart';
 import 'package:sajaya_print_layout/print_template.dart';
-import 'package:sajaya_print_layout/widgets/ticket_details.dart';
-import 'package:sajaya_print_layout/widgets/ticket_final.dart';
-import 'package:sajaya_print_layout/widgets/ticket_product_table.dart';
-import 'package:sajaya_print_layout/widgets/ticket_resume.dart';
-import 'package:sunmi_printer_plus/enums.dart';
 import 'package:sunmi_printer_plus/sunmi_printer_plus.dart';
 
 class PrinterExampleScreen extends StatefulWidget {
@@ -19,7 +12,25 @@ class PrinterExampleScreen extends StatefulWidget {
 }
 
 class _PrinterExampleScreenState extends State<PrinterExampleScreen> {
-  late bool isArabic = true;
+  bool isArabic = true;
+  late bool isBind = false;
+  @override
+  void initState() {
+    super.initState();
+
+    _bindingPrinter().then((bool? isBind) async {
+      if (isBind != null) {
+        setState(() {
+          this.isBind = isBind;
+        });
+      }
+    });
+  }
+
+  Future<bool?> _bindingPrinter() async {
+    final bool? result = await SunmiPrinter.bindingPrinter();
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,41 +87,46 @@ class _PrinterExampleScreenState extends State<PrinterExampleScreen> {
         ),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                    onPressed: () async {
-                      printTemplate(context,
-                          image: base64ImageTest,
-                          ticketDetails: ticketDetails,
-                          ticketProducts: ticketProducts,
-                          ticketFinal: finalData,
-                          ticketResume: resumeData,
-                          textDirection:
-                              isArabic ? TextDirection.rtl : TextDirection.ltr);
-                    },
-                    child: const Text('اطبع')),
-                RadioListTile(
-                    groupValue: isArabic ? "العربية" : "English",
-                    value: "العربية",
-                    title: const Text("العربية"),
-                    onChanged: (value) {
-                      setState(() {
-                        isArabic = true;
-                      });
-                    }),
-                RadioListTile(
-                    groupValue: isArabic ? "العربية" : "English",
-                    value: "English",
-                    title: const Text("English"),
-                    onChanged: (value) {
-                      setState(() {
-                        isArabic = false;
-                      });
-                    }),
-              ]),
+          child: (this.isBind
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                      ElevatedButton(
+                          onPressed: () async {
+                            printTemplate(context,
+                                image: base64ImageTest,
+                                ticketDetails: ticketDetails,
+                                ticketProducts: ticketProducts,
+                                ticketFinal: finalData,
+                                ticketResume: resumeData,
+                                textDirection: isArabic
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr);
+                          },
+                          child: const Text('اطبع')),
+                      RadioListTile(
+                          groupValue: isArabic ? "العربية" : "English",
+                          value: "العربية",
+                          title: const Text("العربية"),
+                          onChanged: (value) {
+                            setState(() {
+                              isArabic = true;
+                            });
+                          }),
+                      RadioListTile(
+                          groupValue: isArabic ? "العربية" : "English",
+                          value: "English",
+                          title: const Text("English"),
+                          onChanged: (value) {
+                            setState(() {
+                              isArabic = false;
+                            });
+                          }),
+                    ])
+              : Text(
+                  "لم يتم ربط الطابعة بالجهاز",
+                )),
         ));
   }
 }
