@@ -19,15 +19,10 @@ class PrinterExampleScreen extends StatefulWidget {
 }
 
 class _PrinterExampleScreenState extends State<PrinterExampleScreen> {
-  late bool isArabic;
+  late bool isArabic = true;
 
   @override
   Widget build(BuildContext context) {
-    initState() {
-      isArabic = true;
-      super.initState();
-    }
-
     Matrix ticketDetails = [
       isArabic
           ? ["المحمول", "رقم الحركة", "التاريخ والوقت", "المندوب"]
